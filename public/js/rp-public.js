@@ -5,8 +5,16 @@
 	$(window).load(function() {
 
 		// Maximum value for the progressbar
-		var winHeight = $(window).height(),
-		docHeight = $(document).height();
+		var winHeight = $(window).height();
+		var docHeight;
+		var offset;
+		if ($("main")) {
+			docHeight = $("main").height();
+			offset = $("main").offset().top;
+		} else {
+			docHeight = $(document).height();
+			offset = 0;
+		}
 		var max = docHeight - winHeight;
 		$('.readingProgressbar').attr('max', max);
 		
@@ -48,11 +56,11 @@
 		.appendTo('head');
 
 		// Inital value (if the page is loaded within an anchor)
-		var value = $(window).scrollTop();
+		var value = $(window).scrollTop() - offset;
 		$('.readingProgressbar').attr('value', value);
 		// Maths & live update of progressbar value
 		$(document).on('scroll', function() {
-			value = $(window).scrollTop();
+			value = $(window).scrollTop() - offset;
 			$('.readingProgressbar').attr('value', value);
 		});
 	});
